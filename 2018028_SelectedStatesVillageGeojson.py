@@ -127,6 +127,16 @@ dataFinal=dataFinal.append(karFinal)
 dataFinal=dataFinal.append(keralaFinal)
 dataFinal=dataFinal.append(mahaFinal)
 dataFinal=dataFinal.append(odishaFinal)
+dataFinal=dataFinal.reset_index(drop=True)
+
+
+##CALCULATING CENTROID
+def calCent(row):
+    x=row.geometry.centroid.x
+    y=row.geometry.centroid.y
+    return x, y
+
+dataFinal['CentX'],dataFinal['CentY']= zip(*dataFinal.apply(lambda row: calCent(row), axis=1)) 
 
 #Save shapefile to geojson
-dataFinal.to_file("X:\Projects\IITDelhi\VillageShapeFile\SelectedStatesVillages.json", driver="GeoJSON")
+dataFinal.to_file("X:\Projects\IITDelhi\VillageShapeFile\SelectedStatesVillages.geojson", driver="GeoJSON")
